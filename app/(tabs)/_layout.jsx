@@ -4,7 +4,7 @@ import icons from '../../constants/icons'
 
 const TabIcon = ({ color, icon, focused, name }) => {
     return <>
-        <View className={`items-center justify-evenly gap-4 ${focused ? 'border-t-8' : ''} w-full`} style={{ borderTopColor: "#ffa001" }}>
+        <View className={`items-center justify-evenly gap-4 w-full`} style={{ borderTopColor: "#ffa001" }}>
             <Image source={icon} resizeMode='contain' className='w-6 h-6' tintColor={color}></Image>
         </View >
         <Text className={`${focused ? 'font-psemibold' : "font-pregular"}`} style={{ color: color }}>{name}</Text>
