@@ -1,15 +1,21 @@
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Alert, Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { images } from '../../constants'
 import FormField from '../../components/FormField'
 import CustomButtons from '../../components/customButtons.jsx'
 import { Link } from 'expo-router'
+import { createUser } from '../../lib/appwrite.js'
 
 const signUp = () => {
     let [FormText, setform] = useState({ username: "", email: "", password: "" })
+
     const handleSubmit = (e) => {
         e.preventDefault()
+        if (FormText.email.length == 0 || FormText.password.length == 0 || FormText.username.length == 0) {
+            Alert.alert("Error", "fill all the Fields")
+        }
+        createUser("vishal", "vishaljain7100@gmail.com", "vishaljain007")
     }
 
     return (
@@ -40,7 +46,7 @@ const signUp = () => {
                         handleChangeText={(e) => setform((pre) => pre.password = e)}
                     ></FormField>
 
-                    <CustomButtons title="SignUp" handlePress={handleSubmit} containerStyle='mt-7'></CustomButtons>
+                    <CustomButtons title="SignUp" handlePress={(e) => handleSubmit(e)} containerStyle='mt-7'></CustomButtons>
                     <View className="mt-3 justify-center flex-row">
                         <Text className="text-white font-pregular">Already have Account ? </Text>
                         <Link href="/login" className='text-secondary font-psemibold'>Login</Link>
