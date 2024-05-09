@@ -8,9 +8,9 @@ import { Link } from 'expo-router'
 
 const login = () => {
     let [FormText, setform] = useState({ email: "", password: "" })
+
     const handleSubmit = (e) => {
         e.preventDefault()
-
     }
 
     return (
