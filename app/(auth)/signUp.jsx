@@ -17,7 +17,8 @@ const signUp = () => {
         }
         try {
             const result = await createUser(FormText.username, FormText.email, FormText.password)
-            console.log(result + "this is the result from main page ")
+            setUser(result)
+            setLoggedIn(true)
             router.replace("/home")
         } catch (err) {
             return Alert.alert(err)

@@ -1,16 +1,31 @@
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Alert, Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { images } from '../../constants'
 import FormField from '../../components/FormField'
 import CustomButtons from '../../components/customButtons.jsx'
-import { Link } from 'expo-router'
+import { Link, router } from 'expo-router'
+import { Login } from '../../lib/appwrite.js'
 
 const login = () => {
     let [FormText, setform] = useState({ email: "", password: "" })
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
+
+        if (!FormText.email || !FormText.password) {
+            return Alert.alert("Error", "Fill all the fields")
+        }
+
+        try {
+            const result = Login(FormText.email, FormText.password)
+            setUser(result)
+            setLoggedIn(true)
+            router.replace("/home")
+        } catch (err) {
+            console.log(err)
+            Alert.alert("Error", err)
+        }
     }
 
     return (
@@ -23,7 +38,7 @@ const login = () => {
                         title="Email"
                         placeholder="Email"
                         otherStyle="mt-7"
-                        handleChangeText={(e) => setform((pre) => pre.email = e)}
+                        handleChangeText={(e) => setform(pre => ({ ...pre, email: e }))}
                         value={FormText.email}
                     ></FormField>
                     <FormField
@@ -31,7 +46,7 @@ const login = () => {
                         title="Password"
                         otherStyle="mt-7"
                         placeholder="Password"
-                        handleChangeText={(e) => setform((pre) => pre.password = e)}
+                        handleChangeText={(e) => setform(pre => ({ ...pre, password: e }))}
                     ></FormField>
 
                     <CustomButtons title="Login" handlePress={handleSubmit} containerStyle='mt-7'></CustomButtons>
