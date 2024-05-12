@@ -1,7 +1,12 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
+import { PostAllVideos } from '../../lib/appwrite'
 
 const create = () => {
+    useEffect(() => {
+        // PostAllVideos()
+    }, [])
+
     return (
         <View>
             <Text>create</Text>
