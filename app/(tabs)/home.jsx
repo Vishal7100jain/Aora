@@ -5,7 +5,7 @@ import { images } from '../../constants'
 import SearchField from '../../components/SearchInput.jsx'
 import { Trending } from '../../components/Trending.jsx'
 import Empty from '../../components/Empty.jsx'
-import { getAllPost } from '../../lib/appwrite.js'
+import { getAllPost, getLatestPosts } from '../../lib/appwrite.js'
 import { useAppwrite } from '../../lib/useAppwrite.js'
 import VideosCard from '../../components/VideosCard.jsx'
 
@@ -13,9 +13,10 @@ const Item = ({ id }) => {
     return <View><Text className="text-3xl text-white">{id}</Text></View>
 }
 const home = () => {
-    const [search, setSearch] = useState({ val: "" })
+    const [search, setSearch] = useState()
     const [refreshing, setRefreshing] = useState(false)
     const { Data: posts, reFetch } = useAppwrite(getAllPost);
+    const { Data: latestPosts } = useAppwrite(getLatestPosts);
 
     const onRefresh = async () => {
         setRefreshing(true)
@@ -56,7 +57,7 @@ const home = () => {
                                 Trending Videos
                             </Text>
 
-                            <Trending posts={false ?? []} />
+                            <Trending posts={latestPosts ?? []} />
                         </View>
                     </View>
                 )}

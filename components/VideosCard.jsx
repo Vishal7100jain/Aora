@@ -5,7 +5,7 @@ import { icons } from '../constants';
 
 
 const VideosCard = ({ video: { title, video, thumbnail, users: { username, avatar } } }) => {
-    const [play, setPlay] = useState(true)
+    const [play, setPlay] = useState(false)
 
     // console.log(thumbnail)
 
@@ -35,12 +35,17 @@ const VideosCard = ({ video: { title, video, thumbnail, users: { username, avata
                     resizeMode={ResizeMode.CONTAIN}
                 ></Video>
             ) : (
-                <TouchableOpacity className='w-full h-60 rounded-xl mt-3 relative justify-center items-center'>
+                <TouchableOpacity onPress={() => setPlay(true)} activeOpacity={0.7} className='w-full h-60 rounded-xl mt-3 relative justify-center items-center'>
                     <Image
                         source={{ uri: thumbnail }}
                         className="w-full h-full mt-3 rounded-lg"
                         resizeMode='cover'
                     />
+                    <Image
+                        source={icons.play}
+                        className="w-10 h-10 absolute"
+                        resizeMode='contain'
+                    ></Image>
                 </TouchableOpacity>
             )}
         </View>
