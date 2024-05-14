@@ -1,16 +1,38 @@
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Alert, Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { images } from '../../constants'
 import FormField from '../../components/FormField'
 import CustomButtons from '../../components/customButtons.jsx'
-import { Link } from 'expo-router'
+import { Link, router } from 'expo-router'
+import { Login } from '../../lib/appwrite.js'
+import { useGlobalContext } from '../../context/Globalprovider.js'
 
 const login = () => {
     let [FormText, setform] = useState({ email: "", password: "" })
+    const { setUser, setLoggedIn } = useGlobalContext()
+    const [isLoading, setisLoading] = useState(false)
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
+
+        if (!FormText.email || !FormText.password) {
+            return Alert.alert("Error", "Fill all the fields")
+        }
+
+        setisLoading(true)
+        await Login(FormText.email, FormText.password)
+            .then(res => {
+                setUser(res)
+                setLoggedIn(true)
+                router.replace("/home")
+            })
+            .catch(err => {
+                return Alert.alert("Error", err.message)
+            }).finally(() => {
+                setisLoading(false)
+            })
+
     }
 
     return (
@@ -23,7 +45,7 @@ const login = () => {
                         title="Email"
                         placeholder="Email"
                         otherStyle="mt-7"
-                        handleChangeText={(e) => setform((pre) => pre.email = e)}
+                        handleChangeText={(e) => setform(pre => ({ ...pre, email: e }))}
                         value={FormText.email}
                     ></FormField>
                     <FormField
@@ -31,15 +53,14 @@ const login = () => {
                         title="Password"
                         otherStyle="mt-7"
                         placeholder="Password"
-                        handleChangeText={(e) => setform((pre) => pre.password = e)}
+                        handleChangeText={(e) => setform(pre => ({ ...pre, password: e }))}
                     ></FormField>
 
-                    <CustomButtons title="Login" handlePress={handleSubmit} containerStyle='mt-7'></CustomButtons>
+                    <CustomButtons loadingState={isLoading} title="Login" handlePress={handleSubmit} containerStyle='mt-7'></CustomButtons>
                     <View className="mt-3 justify-center flex-row">
                         <Text className="text-white font-pregular">Don't have Account ? </Text>
                         <Link href="/signUp" className='text-secondary font-psemibold'>SignUp</Link>
                     </View>
-
                 </View>
             </ScrollView>
         </SafeAreaView >

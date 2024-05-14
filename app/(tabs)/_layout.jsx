@@ -23,6 +23,7 @@ const TabsLayout = () => {
             borderTopColor: "#232533",
             height: 84,
         },
+
     }}>
         <Tabs.Screen
             name="home"
