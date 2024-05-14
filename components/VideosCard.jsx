@@ -4,21 +4,19 @@ import { Button, Image, Text, TouchableOpacity, View } from 'react-native';
 import { icons } from '../constants';
 
 
-const VideosCard = ({ video: { title, video, thumbnail, users: { username, avatar } } }) => {
+const VideosCard = ({ video: { title, video, thumbnail, users } }) => {
     const [play, setPlay] = useState(false)
-
-    // console.log(thumbnail)
 
     return (
         <View className="flex-col items-center px-4 mb-14">
             <View className="flex-row gap-3 items-start">
                 <View className="flex-1 flex-row justify-center items-center">
                     <View className="w-[46px]  h-[46px] rounded-full border-secondary border justify-center items-center p-0.5">
-                        <Image source={{ uri: avatar }} className="w-full h-full rounded-full" resizeMode='contain'></Image>
+                        <Image source={{ uri: users.avatar }} className="w-full h-full rounded-full" resizeMode='contain'></Image>
                     </View>
                     <View className="flex-1 justify-center ml-3 gap-y-1">
                         <Text className="text-sm font-psemibold text-white" numberOfLines={1}>{title}</Text>
-                        <Text className="font-pregular text-gray-100">{username}</Text>
+                        <Text className="font-pregular text-gray-100">{users.username}</Text>
                     </View>
                 </View>
                 <View className="pt-2">
@@ -31,8 +29,13 @@ const VideosCard = ({ video: { title, video, thumbnail, users: { username, avata
                     source={{ uri: video }}
                     className="w-full h-60 justify-center items-center mt-3 rounded-xl"
                     useNativeControls
-                    isLooping
+                    shouldPlay
                     resizeMode={ResizeMode.CONTAIN}
+                    onPlaybackStatusUpdate={(status) => {
+                        if (status.didJustFinish) {
+                            setPlay(false)
+                        }
+                    }}
                 ></Video>
             ) : (
                 <TouchableOpacity onPress={() => setPlay(true)} activeOpacity={0.7} className='w-full h-60 rounded-xl mt-3 relative justify-center items-center'>

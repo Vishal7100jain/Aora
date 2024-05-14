@@ -15,6 +15,7 @@ const Item = ({ id }) => {
 const home = () => {
     const [search, setSearch] = useState()
     const [refreshing, setRefreshing] = useState(false)
+
     const { Data: posts, reFetch } = useAppwrite(getAllPost);
     const { Data: latestPosts } = useAppwrite(getLatestPosts);
 

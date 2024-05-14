@@ -11,6 +11,7 @@ import { useGlobalContext } from '../../context/Globalprovider.js'
 const login = () => {
     let [FormText, setform] = useState({ email: "", password: "" })
     const { setUser, setLoggedIn } = useGlobalContext()
+    const [isLoading, setisLoading] = useState(false)
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -19,6 +20,7 @@ const login = () => {
             return Alert.alert("Error", "Fill all the fields")
         }
 
+        setisLoading(true)
         await Login(FormText.email, FormText.password)
             .then(res => {
                 setUser(res)
@@ -27,6 +29,8 @@ const login = () => {
             })
             .catch(err => {
                 return Alert.alert("Error", err.message)
+            }).finally(() => {
+                setisLoading(false)
             })
 
     }
@@ -52,12 +56,11 @@ const login = () => {
                         handleChangeText={(e) => setform(pre => ({ ...pre, password: e }))}
                     ></FormField>
 
-                    <CustomButtons title="Login" handlePress={handleSubmit} containerStyle='mt-7'></CustomButtons>
+                    <CustomButtons loadingState={isLoading} title="Login" handlePress={handleSubmit} containerStyle='mt-7'></CustomButtons>
                     <View className="mt-3 justify-center flex-row">
                         <Text className="text-white font-pregular">Don't have Account ? </Text>
                         <Link href="/signUp" className='text-secondary font-psemibold'>SignUp</Link>
                     </View>
-
                 </View>
             </ScrollView>
         </SafeAreaView >

@@ -1,16 +1,19 @@
 import { Alert, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { PostAllVideos } from '../../lib/appwrite'
+import { PostAllVideos, createVideo } from '../../lib/appwrite'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import FormField from '../../components/FormField.jsx'
 import CustomButtons from '../../components/customButtons'
 import { ResizeMode, Video } from 'expo-av'
 import { icons } from '../../constants'
 import * as DocumentPicker from 'expo-document-picker';
+import { router } from 'expo-router'
+import { useGlobalContext } from '../../context/Globalprovider.js'
 
 const create = () => {
+    const { user } = useGlobalContext()
     const [isLoading, setisLoading] = useState(false)
-    const [formData, setFormData] = useState({ Title: '', video: null, thumbnail: null, AiPrompt: "" })
+    const [formData, setFormData] = useState({ user, Title: '', video: null, thumbnail: null, AiPrompt: "" })
 
     useEffect(() => {
         // PostAllVideos()
@@ -32,13 +35,26 @@ const create = () => {
         }
     }
 
-    const submit = () => {
+    const submit = async () => {
         if (!formData.AiPrompt || !formData.Title || !formData.thumbnail || !formData.video) {
             return Alert.alert("Error", "Fill all the Fields")
         }
 
-        console.log(formData)
+        setisLoading(true)
+        try {
+            const result = await createVideo(formData)
+            Alert.alert("Success", "Post Uploaded Successfully")
+            router.push("/home")
+        } catch (error) {
+            return Alert.alert("Error", error.message)
+        } finally {
+            setFormData({
+                Title: '', video: null, thumbnail: null, AiPrompt: ""
+            })
+            setisLoading(false)
+        }
     }
+
     return (
         <SafeAreaView className="bg-primary h-full">
             <ScrollView className="px-4 my-6">
@@ -55,9 +71,7 @@ const create = () => {
                         {formData.video ? (
                             <Video
                                 source={{ uri: formData.video.uri }}
-                                className='w-full h-64 rounded-2xl '
-                                useNativeControls
-                                isLooping
+                                className='w-full h-64 rounded-2xl'
                                 resizeMode={ResizeMode.CONTAIN}
                             />
                         ) : (
@@ -96,7 +110,7 @@ const create = () => {
                 </View>
 
                 <View className='mt-7 space-y-2'>
-                    <CustomButtons handlePress={submit} title='submit & Publish'></CustomButtons>
+                    <CustomButtons loadingState={isLoading} handlePress={submit} title='submit & Publish'></CustomButtons>
                 </View>
 
             </ScrollView>

@@ -11,6 +11,7 @@ const GlobalProvider = ({ children }) => {
     const [isLoading, setIsloading] = useState(true)
 
 
+    // console.log(user.$id)
     useEffect(() => {
         getCurrentUser()
             .then((res) => {
