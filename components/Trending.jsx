@@ -2,6 +2,7 @@ import { useState } from "react"
 import { FlatList, Image, ImageBackground, Text, TouchableOpacity, View } from "react-native"
 import * as Animatable from 'react-native-animatable'
 import { icons } from "../constants"
+import { ResizeMode, Video } from "expo-av"
 
 const zoomIn = {
     0: {
@@ -29,7 +30,18 @@ const TrendingItem = ({ post, activeItem }) => {
             duration={500}
         >
             {play ? (
-                <Text>Playing</Text>
+                <Video
+                    className="w-52 h-72 shadow-black/400 rounded-[35px] bg-white/10 mt-5 "
+                    source={{ uri: post.video }}
+                    shouldPlay
+                    useNativeControls
+                    resizeMode={ResizeMode.CONTAIN}
+                    onPlaybackStatusUpdate={(status) => {
+                        if (status.didJustFinish) {
+                            setPlay(false)
+                        }
+                    }}
+                />
             ) : (
                 <TouchableOpacity activeOpacity={0.7} onPress={() => setPlay(true)} className="justify-center items-center relative">
                     <Image
