@@ -8,6 +8,7 @@ import Empty from '../../components/Empty.jsx'
 import { getAllPost, getLatestPosts } from '../../lib/appwrite.js'
 import { useAppwrite } from '../../lib/useAppwrite.js'
 import VideosCard from '../../components/VideosCard.jsx'
+import CustomButtons from '../../components/customButtons.jsx'
 
 const Item = ({ id }) => {
     return <View><Text className="text-3xl text-white">{id}</Text></View>
@@ -16,8 +17,8 @@ const home = () => {
     const [search, setSearch] = useState()
     const [refreshing, setRefreshing] = useState(false)
 
-    const { Data: posts, reFetch } = useAppwrite(getAllPost);
-    const { Data: latestPosts } = useAppwrite(getLatestPosts);
+    const { Data: posts } = useAppwrite(getAllPost);
+    const { Data: latestPosts, reFetch } = useAppwrite(getLatestPosts);
 
     const onRefresh = async () => {
         setRefreshing(true)
@@ -57,20 +58,23 @@ const home = () => {
                             <Text className="text-gray-100 text-lg font-pregular mb-3">
                                 Trending Videos
                             </Text>
-
                             <Trending posts={latestPosts ?? []} />
                         </View>
                     </View>
                 )}
                 ListEmptyComponent={() => {
-                    return <Empty title="No Video Found" subTitle="Be the first one to upload a video" />
+                    return <Empty title="No Video Found" subTitle="Be the first one to upload a video">
+                        <CustomButtons
+                            title="Create Video"
+                            handlePress={() => router.push("/create")}
+                            containerStyle="w-full mt-5"
+                        ></CustomButtons>
+                    </Empty>
                 }}
                 refreshControl={
                     < RefreshControl refreshing={refreshing} onRefresh={onRefresh} ></RefreshControl >
                 }
             />
-
-            < View ></View >
         </SafeAreaView >
     )
 }

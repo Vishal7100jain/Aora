@@ -10,11 +10,6 @@ const Empty = ({ title, subTitle }) => {
             <Image source={images.empty} className="w-[275px] h-[215px]" resizeMode='contain' />
             <Text className="text-xl font-psemibold text-white">{title}</Text>
             <Text className="font-pmedium text-sm text-white">{subTitle}</Text>
-            <CustomButtons
-                title="Create Video"
-                handlePress={() => router.push("/create")}
-                containerStyle="w-full mt-5"
-            ></CustomButtons>
         </View>
     )
 }
