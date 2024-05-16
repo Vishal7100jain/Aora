@@ -28,7 +28,6 @@ const home = () => {
 
     return (
         <SafeAreaView className="bg-primary h-full">
-            {/* {posts.map(item => console.log(item))} */}
             <FlatList
                 data={posts}
                 keyExtractor={(item) => item.$id}

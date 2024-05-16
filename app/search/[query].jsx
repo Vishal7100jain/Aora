@@ -35,9 +35,7 @@ const Search = () => {
                 data={posts}
                 keyExtractor={(item) => item.$id}
                 renderItem={({ item }) => (
-                    <>
-                        <VideosCard video={item}></VideosCard>
-                    </>
+                    <VideosCard video={item}></VideosCard>
                 )
                 }
                 ListHeaderComponent={() => (

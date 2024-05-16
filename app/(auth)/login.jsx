@@ -21,17 +21,17 @@ const login = () => {
         }
 
         setisLoading(true)
-        await Login(FormText.email, FormText.password)
-            .then(res => {
-                setUser(res)
-                setLoggedIn(true)
-                router.replace("/home")
-            })
-            .catch(err => {
-                return Alert.alert("Error", err.message)
-            }).finally(() => {
-                setisLoading(false)
-            })
+        try {
+            const result = await Login(FormText.email, FormText.password)
+            setUser(result)
+            setLoggedIn(true)
+            return router.replace("/home")
+        } catch (error) {
+            return Alert.alert("Error", error.message)
+        }
+        finally {
+            setisLoading(false)
+        }
 
     }
 
