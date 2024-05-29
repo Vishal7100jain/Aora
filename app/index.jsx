@@ -10,7 +10,7 @@ import { useGlobalContext } from '../context/Globalprovider.js';
 export default function App() {
     const { isLoading, isLoggedIn } = useGlobalContext()
 
-    if (!isLoading && isLoggedIn) return <Redirect href="/profile" />
+    if (!isLoading && isLoggedIn) return <Redirect href="/home" />
 
     return <>
         <SafeAreaView className="bg-primary h-full">
@@ -25,7 +25,7 @@ export default function App() {
                                 Aora
                             </Text>
                         </Text>
-                        <Image source={images.path} className="w-[116px] h-[15px] absolute -bottom-2 -right-8" resizeMode='contain'></Image>
+                        <Image source={images.path} className="w-[116px] h-[15px] absolute -bottom-2 right-28" resizeMode='contain'></Image>
                     </View>
                     <Text className="text-gray-100 mt-7 text-center text-xs">Where creativity meets innovation: embark on a journey of limitless exploration with Aror</Text>
                     <CustomButtons title="Continue With Email" handlePress={() => router.push("/login")} containerStyle="w-full mt-7" />
