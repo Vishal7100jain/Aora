@@ -41,9 +41,6 @@ const profile = () => {
         }
     }
 
-    console.log(user)
-    console.log("profile user")
-
     return (
         <SafeAreaView className="bg-primary h-full">
             <FlatList

@@ -59,60 +59,62 @@ const create = () => {
         <SafeAreaView className="bg-primary h-full">
             <ScrollView className="px-4 my-6">
                 <Text className='text-white font-psemibold text-2xl'>Upload Video</Text>
-                <View>
-                    <FormField handleChangeText={(e) => setFormData(pre => pre = { ...pre, Title: e })} title='Video title' placeholder='Give your video a catchy title' value={formData.Title} otherStyle='mt-10' />
-                </View>
+                <View className="justify-evenly">
+                    <View>
+                        <FormField handleChangeText={(e) => setFormData(pre => pre = { ...pre, Title: e })} title='Video title' placeholder='Give your video a catchy title' value={formData.Title} otherStyle='mt-10' />
+                    </View>
 
-                <View className="mt-7 space-y-2">
-                    <Text className='text-base text-gray-100 font-pmedium'>
-                        Upload video
-                    </Text>
-                    <TouchableOpacity activeOpacity={0.7} onPress={(e) => picker('video')}>
-                        {formData.video ? (
-                            <Video
-                                source={{ uri: formData.video.uri }}
-                                className='w-full h-64 rounded-2xl'
-                                resizeMode={ResizeMode.CONTAIN}
-                            />
-                        ) : (
-                            <View className="h-40 px-4 bg-black-100 rounded-2xl items-center justify-center">
-                                <View className='w-14 h-14 border rounded-2xl border-secondary-100 justify-center items-center'>
-                                    <Image source={icons.upload} className='w-1/2 h-1/2' resizeMode='contain'></Image>
+                    <View className="mt-7 space-y-2">
+                        <Text className='text-base text-gray-100 font-pmedium'>
+                            Upload video
+                        </Text>
+                        <TouchableOpacity activeOpacity={0.7} onPress={(e) => picker('video')}>
+                            {formData.video ? (
+                                <Video
+                                    source={{ uri: formData.video.uri }}
+                                    className='w-full h-64 rounded-2xl'
+                                    resizeMode={ResizeMode.CONTAIN}
+                                />
+                            ) : (
+                                <View className="h-40 px-4 bg-black-100 rounded-2xl items-center justify-center">
+                                    <View className='w-14 h-14 border rounded-2xl border-secondary-100 justify-center items-center'>
+                                        <Image source={icons.upload} className='w-1/2 h-1/2' resizeMode='contain'></Image>
+                                    </View>
                                 </View>
-                            </View>
-                        )}
-                    </TouchableOpacity>
-                </View>
+                            )}
+                        </TouchableOpacity>
+                    </View>
 
-                <View className='mt-7 space-y-2'>
-                    <Text className='text-base text-gray-100 font-pmedium'>
-                        Upload thumbnail
-                    </Text>
+                    <View className='mt-7 space-y-2'>
+                        <Text className='text-base text-gray-100 font-pmedium'>
+                            Upload thumbnail
+                        </Text>
 
-                    <TouchableOpacity activeOpacity={0.7} onPress={(e) => picker('image')}>
-                        {formData.thumbnail ? (
-                            <Image
-                                source={{ uri: formData.thumbnail.uri }}
-                                className="w-full h-32 rounded-2xl"
-                            ></Image>
-                        ) : (
-                            <View className="h-15 px-4 bg-black-100 rounded-2xl flex-row items-center justify-center">
-                                <View className='w-14 h-14 justify-center items-center'>
-                                    <Image source={icons.upload} className='w-1/2 h-1/2' resizeMode='contain'></Image>
+                        <TouchableOpacity activeOpacity={0.7} onPress={(e) => picker('image')}>
+                            {formData.thumbnail ? (
+                                <Image
+                                    source={{ uri: formData.thumbnail.uri }}
+                                    className="w-full h-32 rounded-2xl"
+                                ></Image>
+                            ) : (
+                                <View className="h-15 px-4 bg-black-100 rounded-2xl flex-row items-center justify-center">
+                                    <View className='w-14 h-14 justify-center items-center'>
+                                        <Image source={icons.upload} className='w-1/2 h-1/2' resizeMode='contain'></Image>
+                                    </View>
+                                    <Text className='text-base text-gray-100 font-pmedium'>Choose a file</Text>
                                 </View>
-                                <Text className='text-base text-gray-100 font-pmedium'>Choose a file</Text>
-                            </View>
-                        )}
-                    </TouchableOpacity>
-                </View>
-                <View className='mt-7 space-y-2'>
-                    <FormField handleChangeText={(e) => setFormData(pre => pre = { ...pre, AiPrompt: e })} title='AI Prompt' placeholder='The ai prompt for your video' value={formData.AiPrompt} />
-                </View>
+                            )}
+                        </TouchableOpacity>
+                    </View>
+                    <View className='mt-7 space-y-2'>
+                        <FormField handleChangeText={(e) => setFormData(pre => pre = { ...pre, AiPrompt: e })} title='AI Prompt' placeholder='The ai prompt for your video' value={formData.AiPrompt} />
+                    </View>
 
-                <View className='mt-7 space-y-2'>
-                    <CustomButtons loadingState={isLoading} handlePress={submit} title='submit & Publish'></CustomButtons>
-                </View>
+                    <View className='mt-7 space-y-2'>
+                        <CustomButtons loadingState={isLoading} handlePress={submit} title='submit & Publish'></CustomButtons>
+                    </View>
 
+                </View>
             </ScrollView>
         </SafeAreaView>
     )

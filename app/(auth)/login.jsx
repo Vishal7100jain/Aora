@@ -22,6 +22,7 @@ const login = () => {
 
         setisLoading(true)
         try {
+            console.log(FormText)
             const result = await Login(FormText.email, FormText.password)
             setUser(result)
             setLoggedIn(true)
